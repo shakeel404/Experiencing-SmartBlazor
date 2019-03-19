@@ -1,0 +1,55 @@
+﻿@using SmartLearning.Shared.Models
+@inject HttpClient Http
+
+<div class="row">
+    <SubjectAdd CallBack="@(async () => await GetSubjects())" />
+</div>
+
+<div class="row">
+    @if (Subjects == null)
+    {
+       <Waiting></Waiting>
+
+    }
+    else
+    {
+
+
+        <div class="col-md-12">
+            <ul class="list-group list-group-flush">
+
+                @foreach (var item in Subjects)
+                {
+                    <li class="list-group-item">
+                        <SubjectDetail Model="@item" CallBack="@(async () => await GetSubjects())" />
+                    </li>
+                }
+
+
+            </ul>
+        </div>
+
+
+    }
+</div>
+
+
+
+@functions{
+
+    private IList<Subject> Subjects;
+
+    protected override async Task OnInitAsync()
+    {
+        await GetSubjects();
+    }
+
+    private async Task GetSubjects()
+    {
+
+        var data = await Http.GetJsonAsync<IEnumerable<Subject>>("api/subject");
+        Subjects = data.ToList();
+
+        StateHasChanged();
+    }
+}

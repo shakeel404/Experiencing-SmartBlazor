@@ -1,0 +1,57 @@
+﻿@namespace SmartLearning.Client.Pages.Components.Class
+
+@using SmartLearning.Shared.Models
+@inject HttpClient Http
+
+<div class="row">
+    <ClassAdd CallBack="@(async () => await GetClasses())" />
+</div>
+
+<div class="row">
+    @if (Classes == null)
+    {
+        <Waiting></Waiting>
+
+    }
+    else
+    {
+
+
+        <div class="col-md-12">
+            <ul class="list-group list-group-flush">
+
+                @foreach (var item in Classes)
+                {
+                    <li class="list-group-item">
+                        <ClassDetail Model="@item" CallBack="@(async () => await GetClasses())" />
+                    </li>
+                }
+
+
+            </ul>
+        </div>
+
+
+    }
+</div>
+
+
+
+@functions{
+
+    private IList<Class> Classes;
+
+    protected override async Task OnInitAsync()
+    {
+        await GetClasses();
+    }
+
+    private async Task GetClasses()
+    {
+
+        var data = await Http.GetJsonAsync<IEnumerable<Class>>("api/class");
+        Classes = data.ToList();
+
+        StateHasChanged();
+    }
+}

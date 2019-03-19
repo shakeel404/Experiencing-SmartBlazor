@@ -1,0 +1,14 @@
+﻿ 
+        <button class="btn-transition btn btn-outline-light
+                    @(IsActive?"active":"")"
+                onclick="@(()=> CallBack?.Invoke(PageNumber))">
+            @PageNumber
+        </button>
+    
+
+@functions{
+
+    [Parameter] bool IsActive { get; set; }
+    [Parameter] int PageNumber { get; set; }
+    [Parameter] Action<int> CallBack { get; set; }
+}

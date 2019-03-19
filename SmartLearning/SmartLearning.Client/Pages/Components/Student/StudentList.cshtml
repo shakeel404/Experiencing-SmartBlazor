@@ -1,0 +1,112 @@
+﻿@using SmartLearning.Shared.Models
+@using SmartLearning.Shared.Utility
+@inject HttpClient Http
+
+@if (Students == null)
+{
+    <Waiting></Waiting>
+}
+else
+{
+<div class="col-md-12">
+    <div class="btn-group">
+        @for (int p = 1; p <= PaginationModel.Pages; p++)
+        {
+            <Pagination PageNumber="@p" IsActive="@(PaginationModel.Page==p)" CallBack="@Paginate" />
+        }
+    </div>
+    <div class="float-right">
+        <Search CallBack="@Search" />
+    </div>
+</div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date Of Birth</th>
+                <th>Gender</th>
+                <th>Religion</th>
+                <th>Nationality</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Students)
+            {
+                <StudentDetail Model="@item" CallBack="@(async()=> await GetStudents())" />
+            }
+        </tbody>
+    </table>
+
+}
+
+<StudentAdd CallBack="@(async()=> await GetStudents())" />
+
+
+@functions{
+
+    IList<Student> Students;
+    PaginationModel<Student> PaginationModel;
+
+
+
+    protected override async void OnInit()
+    {
+        await GetStudents();
+    }
+
+    async Task GetStudents()
+    {
+
+        var uri = "api/student";
+        if (PaginationModel != null)
+        {
+            uri = $"{uri}/{PaginationModel.Page}/{PaginationModel.Size}/{PaginationModel.Filter}";
+        }
+        else
+        {
+            uri = $"{uri}/{1}/{10}";
+        }
+
+
+
+        PaginationModel = await Http.GetJsonAsync<PaginationModel<Student>>(uri);
+
+        Students = PaginationModel.Items.ToList();
+
+        StateHasChanged();
+    }
+
+    async void Paginate(int page)
+    {
+        if (PaginationModel != null)
+        {
+            if (PaginationModel.Page == page)
+            {
+                return;
+            }
+
+            PaginationModel.Page = page;
+        }
+
+        await GetStudents();
+    }
+
+    async void Search(string filter)
+    {
+        if (PaginationModel != null)
+        {
+            if (PaginationModel.Filter == filter)
+            {
+                return;
+            }
+
+            PaginationModel.Filter = filter;
+            PaginationModel.Page = 1;
+            PaginationModel.Size = 10;
+        }
+
+        await GetStudents();
+    }
+
+}

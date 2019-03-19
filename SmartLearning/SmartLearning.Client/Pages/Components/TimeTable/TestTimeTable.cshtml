@@ -1,0 +1,51 @@
+﻿@page "/test"
+@using SmartLearning.Shared.Models
+
+
+    <EditForm Model="@Model" OnValidSubmit="@ValidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="row">
+            <label for="name" class="text-dark">Theory Allowed</label>
+            <InputNumber Id="name" Class="form-control" bind-Value="@Model.TheoryAllowedMarks" />
+            <div class="text-danger">
+                <ValidationMessage For="(()=>Model.TheoryAllowedMarks)" />
+            </div>
+        </div>
+        <div class="row">
+            <label for="name1" class="text-dark">Theory Passing</label>
+            <InputNumber Id="name1" Class="form-control" bind-Value="@Model.TheoryPassingMarks" />
+            <div class="text-danger">
+                <ValidationMessage For="(()=>Model.TheoryPassingMarks)" />
+            </div>
+        </div>
+        <div class="row">
+            <label for="name2" class="text-dark">Practicle Allowed</label>
+            <InputNumber Id="name2" Class="form-control" bind-Value="@Model.PracticalAllowedMarks" />
+            <div class="text-danger">
+                <ValidationMessage For="(()=>Model.PracticalAllowedMarks)" />
+
+            </div>
+        </div>
+        <div class="row">
+            <label for="name3" class="text-dark">Practical Passing</label>
+            <InputNumber Id="name3" Class="form-control" bind-Value="@Model.PracticalPassingMarks" />
+            <div class="text-danger">
+                <ValidationMessage For="(()=>Model.PracticalPassingMarks)" /> 
+            </div>
+        
+        </div>
+
+        <button class="btn btn-secondary" type="submit">Save</button>
+
+    </EditForm>
+
+@functions{
+
+   private TimeTable Model = new TimeTable();
+
+    void ValidSubmit()
+    {
+        Console.WriteLine("Every thing is OK");
+    }
+}

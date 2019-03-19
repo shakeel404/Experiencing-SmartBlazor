@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190313161442_Initial.cs" />
+    <Compile Remove="Migrations\20190313161442_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190313162338_Initial.cs" />
+    <Compile Remove="Migrations\20190313162338_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190317112727_AllEntities.cs" />
+    <Compile Remove="Migrations\20190317112727_AllEntities.Designer.cs" />
+    <Compile Remove="Migrations\20190317113440_Initail.cs" />
+    <Compile Remove="Migrations\20190317113440_Initail.Designer.cs" />
+    <Compile Remove="Migrations\20190317141041_InitialMigration.cs" />
+    <Compile Remove="Migrations\20190317141041_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190317141544_InitialMigration.cs" />
+    <Compile Remove="Migrations\20190317141544_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190317142011_Initial.cs" />
+    <Compile Remove="Migrations\20190317142011_Initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="0.9.0-preview3-19154-02" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Server" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0-preview.19074.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartLearning.Client\SmartLearning.Client.csproj" />
+    <ProjectReference Include="..\SmartLearning.Shared\SmartLearning.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Models\" />
+  </ItemGroup>
+
+</Project>

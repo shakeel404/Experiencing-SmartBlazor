@@ -1,0 +1,32 @@
+﻿<div class="search-wrapper @(Collapesed?"":"active")">
+    <div class="input-holder">
+        <input type="text" class="search-input" bind="@Filter" placeholder="Type to search" />
+        <button class="search-icon" onclick="@HandleSearch"><span></span></button>
+    </div>
+    <button class="close" onclick="@ClearSearch"></button>
+</div>
+
+@functions{
+
+    private string Filter { get; set; }
+
+    private bool Collapesed = true;
+
+
+    [Parameter] Action<string> CallBack { get; set; }
+
+    void ClearSearch()
+    {
+        Collapesed = true;
+        Filter = null;
+        CallBack?.Invoke(Filter);
+    }
+
+    void HandleSearch()
+    {
+        Collapesed = false;
+        StateHasChanged();
+        CallBack?.Invoke(Filter);
+    }
+
+}

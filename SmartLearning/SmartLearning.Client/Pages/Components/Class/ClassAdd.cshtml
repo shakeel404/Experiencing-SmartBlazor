@@ -1,0 +1,60 @@
+﻿@namespace SmartLearning.Client.Pages.Components.Class
+@using SmartLearning.Shared.Models
+@inject HttpClient Http
+
+<EditForm Model="@ClassModel" OnValidSubmit="@ValidSubmit">
+    <DataAnnotationsValidator />
+    <label for="name" class="text-dark">Class Name</label>
+    <div class="input-group">
+
+        <InputText Id="name" Class="form-control"  bind-Value="@ClassModel.Name" />
+        <div class="input-group-append">
+            @if (!ItemSaving)
+            {
+                <button class="btn btn-secondary" type="submit">Save</button>
+            }
+            else
+            {
+               <WaitingSecondaryButton></WaitingSecondaryButton>
+
+
+            }
+        </div>
+
+    </div>
+    <div class="text-danger">
+        <ValidationMessage For="(()=>ClassModel.Name)" />
+    </div>
+</EditForm>
+
+@functions{
+
+
+    private Class ClassModel = new Class();
+    bool ItemSaving = false;
+
+    [Parameter]  Action CallBack { get; set; }
+
+    async void ValidSubmit()
+    {
+
+        ItemSaving = true;
+        try
+        { 
+              await Http.PostJsonAsync("api/class", new Class { Name = ClassModel.Name });
+
+            CallBack?.Invoke();
+
+            ClassModel.Name = "";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Class name '{ClassModel.Name}' Cannot be added.");
+            Console.WriteLine(ex.Message);
+        }
+
+        ItemSaving = false;
+        StateHasChanged();
+    }
+
+}

@@ -1,0 +1,54 @@
+﻿@using SmartLearning.Shared.Models
+@inject HttpClient Http
+@inject Sotsera.Blazor.Toaster.IToaster Toaster
+<tr>
+    <td>@($"{Model.FirstName} {Model.LastName}")</td>
+    <td>@(((DateTime)Model.DateOfBirth).ToLongDateString())</td>
+    <td>@Model.Gender</td>
+
+    <td>@Model.Religion</td>
+    <td>@Model.Nationality</td>
+    <td>
+        @if (!ItemDeleting)
+        {
+            <button class="mb-2 mr-2 border-0 btn-transition btn btn-outline-danger"
+                    onclick="@(()=>Delete(Model.Id))">
+                <i class="fa fa-trash"></i>
+            </button>
+        }
+        else
+        {
+            <button class="mb-2 mr-2 border-0 btn-transition btn btn-outline-danger">
+                <i class="fa fa-cog fa-spin">
+                </i>
+            </button>
+        }
+    </td>
+</tr>
+
+@functions{
+
+    [Parameter] Student Model { get; set; }
+    [Parameter] Action CallBack { get; set; }
+    private bool ItemDeleting;
+
+    async void Delete(string id)
+    {
+        ItemDeleting = true;
+        var url = $"api/student/{id}";
+
+        try
+        {
+            await Http.DeleteAsync(url);
+            Toaster.Success($"{Model.FirstName} {Model.LastName} is deleted successfully", "Deleted");
+            CallBack?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        ItemDeleting = false;
+        StateHasChanged();
+    }
+}
